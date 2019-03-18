@@ -1,10 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:text="111"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:background="@color/blue"
+        android:layout_height="35dp">
+        <Button
+            android:id="@+id/rule_back"
+            android:text="返回"
+            android:textColor="@color/white"
+            android:background="@color/blue"
+            android:layout_width="50dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:text="预约规则"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <com.ljt.libraryseatmanager.View.BorderTextView
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="近日，河北大学图书馆与大学数字图书馆国际合作计划（CADAL）项目管理中心以及CADAL项目北京地区中心签订了三方协议书，成为CADAL用户，正式加入CADAL共建共享服务体系。"
+        android:id="@+id/rule_content"/>
+    <TextView
+        android:layout_gravity="end"
+        android:id="@+id/fu_text_hbu"
+        android:text="1111111111111"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

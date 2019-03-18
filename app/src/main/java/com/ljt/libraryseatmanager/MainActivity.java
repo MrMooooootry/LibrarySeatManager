@@ -2,9 +2,11 @@ package com.ljt.libraryseatmanager;
 
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -18,13 +20,15 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.ljt.libraryseatmanager.Util.HandleBackUtil;
+import com.ljt.libraryseatmanager.fragment.BaseFragment;
 import com.ljt.libraryseatmanager.fragment.BroFragment;
 import com.ljt.libraryseatmanager.fragment.LeaveFragment;
 import com.ljt.libraryseatmanager.fragment.MineFragment;
 import com.ljt.libraryseatmanager.fragment.RuleFragment;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     private FrameLayout frameLayout;
     private TextView suggettionText;
     private Button ruleBtn;
@@ -47,18 +51,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mineBtn = (Button) findViewById(R.id.mine);
         frameLayout=(FrameLayout)findViewById(R.id.fragment_container);
 
-        initSpann4Text("请先阅读预约规则",suggettionText,R.drawable.rule);
-        initSpann("预约规则",ruleBtn,R.drawable.rule );
-        initSpann("马上预约",bespokeBtn,R.drawable.bro);
-        initSpann("临时离开/签离",leaveBtn,R.drawable.leave);
-        initSpann("个人中心",mineBtn,R.drawable.mine);
+        initSpann4Text(this,"请先阅读预约规则",suggettionText,R.drawable.rule);
+        initSpann("图预约规则",ruleBtn,R.drawable.rule );
+        initSpann("图马上预约",bespokeBtn,R.drawable.bro);
+        initSpann("图临时离开/签离",leaveBtn,R.drawable.leave);
+        initSpann("图个人中心",mineBtn,R.drawable.mine);
         ruleBtn.setOnClickListener(this);
         bespokeBtn.setOnClickListener(this);
         leaveBtn.setOnClickListener(this);
         mineBtn.setOnClickListener(this);
     }
 
-    private void initSpann(String content,Button buttonm,int id) {
+
+
+    private void initSpann(String content, Button buttonm, int id) {
 
         SpannableString spannableString=new SpannableString(content);
         Drawable drawable=getResources().getDrawable(id);
@@ -70,10 +76,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ImageSpan imageSpan=new ImageSpan(drawable);
         spannableString.setSpan(imageSpan,0,1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         buttonm.setText(spannableString);
-    }private void initSpann4Text(String content,TextView textView,int id) {
+    }public static  void initSpann4Text(Context context,String content, TextView textView, int id) {
 
         SpannableString spannableString=new SpannableString(content);
-        Drawable drawable=getResources().getDrawable(id);
+        Drawable drawable=context.getResources().getDrawable(id);
 
         int intrinsicHeight = drawable.getIntrinsicHeight();
         int intrinsicWidth = drawable.getIntrinsicWidth();
@@ -84,13 +90,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView.setText(spannableString);
     }
 
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId())
         {
             case R.id.rule_btn:
-//                Intent intent=new Intent();
-//                intent.setClass(MainActivity.this,ContentActivity.class)
+
                 RuleFragment ruleFragment=new RuleFragment();
                 setFragment(ruleFragment);
 
@@ -118,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FragmentManager manager=getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container,fragment);
+
         fragmentTransaction.commit();
     }
 }

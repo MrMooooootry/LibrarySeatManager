@@ -72,7 +72,7 @@ public class RuleFragment extends BaseFragment  {
                 RuleFragment ruleFragment=new RuleFragment();
                 FragmentManager fragmentManager=getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container,null);
+                fragmentTransaction.replace(R.id.fragment_container,ruleFragment);
                 fragmentTransaction.commit();
             }
         });

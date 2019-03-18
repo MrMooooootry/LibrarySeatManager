@@ -48,7 +48,8 @@ public class MyLstAdapter extends BaseAdapter {
         else {
             viewHolder=(ViewHolder)convertView.getTag();
         }
-        return null;
+        viewHolder.textView.setText((String)getItem(position));
+        return convertView;
     }
 
     private class ViewHolder {

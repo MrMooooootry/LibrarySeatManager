@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,8 @@ import android.widget.TextView;
 
 import com.ljt.libraryseatmanager.MyLstAdapter;
 import com.ljt.libraryseatmanager.R;
+import com.ljt.libraryseatmanager.Util.Content;
+import com.ljt.libraryseatmanager.Util.SPUtil;
 import com.ljt.libraryseatmanager.bean.Areas;
 import com.ljt.libraryseatmanager.bean.Floors;
 
@@ -32,8 +36,11 @@ public class BroFragment extends BaseFragment {
     private Button nextBtnFirst;
 
     private List<String> dataList;
-    private String selectedFloor;
-    private String selectedArea;
+    private int selectedFloor;
+    private String selectedFloorName;
+    private int selectedArea;
+    private String selectedAreaName;
+
     private int currentLevel;
     private TextView titleText;
     private MyLstAdapter myLstAdapter;
@@ -61,8 +68,12 @@ public class BroFragment extends BaseFragment {
                 if (currentLevel==LEVEL_FLOOR)
                 { Log.d("ljt","点击位置为");
 
+                    selectedFloor=position;
+                    SPUtil.putInt(getContext(),Content.FLOOR_ID,selectedFloor);
                     String name = floorsList.get(position).getName();
                     Log.d("ljt","点击位置为"+name);
+                    selectedFloorName=name;
+                    SPUtil.putString(getContext(),Content.FLOOR_NAME,selectedFloorName);
                     List<Areas> areas = floorsList.get(position).getAreas();
                     Log.d("ljt","areas数组大小为"+areas.size());
                     quarryArea(name,areas);
@@ -70,6 +81,19 @@ public class BroFragment extends BaseFragment {
                 }
                 else if (currentLevel==LEVEL_AREA)
                 {
+                    // TODO: 2019/3/18
+                    selectedArea=position;
+                    int floorId = SPUtil.getInt(getContext(), Content.FLOOR_ID);
+                    SPUtil.putInt(getContext(),Content.AREA_ID,position);
+                    String name = floorsList.get(floorId).getAreas().get(position).getName();
+                    selectedAreaName=name;
+                    SPUtil.putString(getContext(),Content.AREA_NAME,selectedAreaName);
+                    SeatChooseFragment seatChooseFragment=new SeatChooseFragment();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container,seatChooseFragment);
+                    fragmentTransaction.commit();
+
 
                 }
             }
@@ -89,8 +113,10 @@ public class BroFragment extends BaseFragment {
             String name = areas1.getName();
             dataList.add(name);
         }
+
         myLstAdapter.notifyDataSetChanged();
         currentLevel=LEVEL_AREA;
+
 
 
     }
